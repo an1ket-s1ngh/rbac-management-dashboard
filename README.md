@@ -1,200 +1,229 @@
 # RBAC Dashboard
 
-## Project Overview
-
-The RBAC (Role-Based Access Control) Dashboard is a web application designed to manage user roles and permissions within an organization. It provides an intuitive interface for administrators to assign roles, define permissions, and control access to various resources.
-
-## Features
-
-- User management
-- Role assignment
-- Permission management
-- Audit logs
-- Responsive design
+This project is a Role-Based Access Control (RBAC) Dashboard built with Next.js, React, and Supabase. It provides a user interface for managing user roles and permissions, as well as tasks within an organization.
 
 ## Technology Stack
 
-- **Frontend:** React, Redux, Material-UI
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
-- **Authentication:** JWT (JSON Web Tokens)
-- **Deployment:** Docker, Kubernetes
+- **Next.js**: A React framework for server-side rendering and static site generation.
+- **React**: A JavaScript library for building user interfaces.
+- **Supabase**: An open-source Firebase alternative for authentication and database management.
+- **Tailwind CSS**: A utility-first CSS framework for styling.
+- **Zustand**: A small, fast, and scalable state-management solution.
+- **Zod**: A TypeScript-first schema declaration and validation library.
+- **Radix UI**: A set of accessible and unstyled UI components.
 
 ## Setup Instructions
 
-### Prerequisites
-
-- Node.js (v14.x or higher)
-- MongoDB
-- Docker (optional, for containerized deployment)
-
-### Installation
-
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/rbac-dashboard.git
+1. **Clone the repository**:
+    ```sh
+    git clone https://github.com/your-username/rbac-dashboard.git
     cd rbac-dashboard
     ```
 
-2. Install dependencies for both frontend and backend:
-    ```bash
-    cd frontend
-    npm install
-    cd ../backend
+2. **Install dependencies**:
+    ```sh
     npm install
     ```
 
-3. Configure environment variables:
-    - Create a `.env` file in the `backend` directory with the following content:
-        ```
-        PORT=5000
-        MONGO_URI=mongodb://localhost:27017/rbac-dashboard
-        JWT_SECRET=your_jwt_secret
-        ```
-
-4. Start the development servers:
-    - Backend:
-        ```bash
-        cd backend
-        npm start
-        ```
-    - Frontend:
-        ```bash
-        cd frontend
-        npm start
-        ```
-
-5. Open your browser and navigate to `http://localhost:3000`.
-
-### Docker Deployment
-
-1. Build and run the Docker containers:
-    ```bash
-    docker-compose up --build
+3. **Set up environment variables**:
+    Create a [.env.local](http://_vscodecontentref_/0) file in the root directory and add the following environment variables:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+    SERVICE_ROLE=your-supabase-service-role-key
     ```
 
-2. Open your browser and navigate to `http://localhost:3000`.
+4. **Run the development server**:
+    ```sh
+    npm run dev
+    ```
+
+5. **Build for production**:
+    ```sh
+    npm run build
+    ```
+
+6. **Start the production server**:
+    ```sh
+    npm start
+    ```
+
+## Project Structure
+
+- **app/**: Contains the main application pages and components.
+  - **auth/**: Authentication-related pages and components.
+  - **dashboard/**: Dashboard-related pages and components.
+  - **(home)**: Home page.
+- **components/**: Reusable UI components.
+- **lib/**: Library files for actions, store, and utilities.
+- **public/**: Public assets.
+- **styles/**: Global styles.
+- **middleware.ts**: Middleware for handling authentication.
+- **next.config.js**: Next.js configuration file.
+- **tailwind.config.js**: Tailwind CSS configuration file.
+- **tsconfig.json**: TypeScript configuration file.
 
 ## API Documentation
 
 ### Authentication
 
-#### Login
-
-- **Endpoint:** `POST /api/auth/login`
-- **Description:** Authenticates a user and returns a JWT token.
-- **Request Body:**
+- **Login with Email and Password**
+  - **Endpoint**: `POST /api/auth/login`
+  - **Description**: Logs in a user with email and password.
+  - **Request Body**:
     ```json
     {
-        "email": "user@example.com",
-        "password": "password123"
+      "email": "user@example.com",
+      "password": "password"
     }
     ```
-- **Response:**
+  - **Response**:
     ```json
     {
-        "token": "jwt_token"
-    }
-    ```
-
-### Users
-
-#### Get All Users
-
-- **Endpoint:** `GET /api/users`
-- **Description:** Retrieves a list of all users.
-- **Headers:**
-    ```json
-    {
-        "Authorization": "Bearer jwt_token"
-    }
-    ```
-- **Response:**
-    ```json
-    [
-        {
-            "id": "user_id",
-            "name": "John Doe",
-            "email": "john.doe@example.com",
-            "roles": ["admin"]
-        }
-    ]
-    ```
-
-#### Create User
-
-- **Endpoint:** `POST /api/users`
-- **Description:** Creates a new user.
-- **Request Body:**
-    ```json
-    {
-        "name": "Jane Doe",
-        "email": "jane.doe@example.com",
-        "password": "password123",
-        "roles": ["user"]
-    }
-    ```
-- **Response:**
-    ```json
-    {
-        "id": "new_user_id",
-        "name": "Jane Doe",
-        "email": "jane.doe@example.com",
-        "roles": ["user"]
+      "data": { ... },
+      "error": null
     }
     ```
 
-### Roles
-
-#### Get All Roles
-
-- **Endpoint:** `GET /api/roles`
-- **Description:** Retrieves a list of all roles.
-- **Headers:**
+- **Logout**
+  - **Endpoint**: `POST /api/auth/logout`
+  - **Description**: Logs out the current user.
+  - **Response**:
     ```json
     {
-        "Authorization": "Bearer jwt_token"
-    }
-    ```
-- **Response:**
-    ```json
-    [
-        {
-            "id": "role_id",
-            "name": "admin",
-            "permissions": ["read", "write", "delete"]
-        }
-    ]
-    ```
-
-#### Create Role
-
-- **Endpoint:** `POST /api/roles`
-- **Description:** Creates a new role.
-- **Request Body:**
-    ```json
-    {
-        "name": "manager",
-        "permissions": ["read", "write"]
-    }
-    ```
-- **Response:**
-    ```json
-    {
-        "id": "new_role_id",
-        "name": "manager",
-        "permissions": ["read", "write"]
+      "data": null,
+      "error": null
     }
     ```
 
-## Contributing
+### Members
 
-Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) before getting started.
+- **Create Member**
+  - **Endpoint**: `POST /api/members`
+  - **Description**: Creates a new member.
+  - **Request Body**:
+    ```json
+    {
+      "name": "John Doe",
+      "role": "new_user",
+      "status": "active",
+      "email": "john@example.com",
+      "password": "password",
+      "confirm": "password"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "data": { ... },
+      "error": null
+    }
+    ```
+
+- **Read Members**
+  - **Endpoint**: `GET /api/members`
+  - **Description**: Retrieves a list of members.
+  - **Response**:
+    ```json
+    {
+      "data": [ ... ],
+      "error": null
+    }
+    ```
+
+- **Update Member**
+  - **Endpoint**: `PUT /api/members/:id`
+  - **Description**: Updates a member's information.
+  - **Request Body**:
+    ```json
+    {
+      "name": "John Doe",
+      "role": "admin",
+      "status": "active",
+      "email": "john@example.com",
+      "password": "newpassword",
+      "confirm": "newpassword"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "data": { ... },
+      "error": null
+    }
+    ```
+
+- **Delete Member**
+  - **Endpoint**: `DELETE /api/members/:id`
+  - **Description**: Deletes a member.
+  - **Response**:
+    ```json
+    {
+      "data": null,
+      "error": null
+    }
+    ```
+
+### Tasks
+
+- **Create Task**
+  - **Endpoint**: `POST /api/tasks`
+  - **Description**: Creates a new task.
+  - **Request Body**:
+    ```json
+    {
+      "title": "New Task",
+      "completed": false
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "data": { ... },
+      "error": null
+    }
+    ```
+
+- **Read Tasks**
+  - **Endpoint**: `GET /api/tasks`
+  - **Description**: Retrieves a list of tasks.
+  - **Response**:
+    ```json
+    {
+      "data": [ ... ],
+      "error": null
+    }
+    ```
+
+- **Update Task**
+  - **Endpoint**: `PUT /api/tasks/:id`
+  - **Description**: Updates a task's information.
+  - **Request Body**:
+    ```json
+    {
+      "title": "Updated Task",
+      "completed": true
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "data": { ... },
+      "error": null
+    }
+    ```
+
+- **Delete Task**
+  - **Endpoint**: `DELETE /api/tasks/:id`
+  - **Description**: Deletes a task.
+  - **Response**:
+    ```json
+    {
+      "data": null,
+      "error": null
+    }
+    ```
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any questions or feedback, please contact [yourname@example.com](mailto:yourname@example.com).
+This project is licensed under the MIT License.
