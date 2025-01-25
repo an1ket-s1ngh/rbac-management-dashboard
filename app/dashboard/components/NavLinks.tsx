@@ -5,20 +5,25 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
-export default function NavLinks() {
+export default function NavLinks({ userRole }: { userRole: string }) {
 	const pathname = usePathname();
-
+	console.log(pathname, userRole);
 	const links = [
 		{
 			href: "/dashboard/members",
 			text: "Members",
 			Icon: PersonIcon,
 		},
-		{
-			href: "/dashboard/tasks",
-			text: "Tasks",
-			Icon: CrumpledPaperIcon,
-		},
+		// Conditionally include the Task link
+		...(userRole !== "new_user"
+			? [
+					{
+						href: "/dashboard/tasks",
+						text: "Tasks",
+						Icon: CrumpledPaperIcon,
+					},
+			]
+			: []),
 	];
 
 	return (
