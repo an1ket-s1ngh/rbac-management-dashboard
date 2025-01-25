@@ -5,12 +5,14 @@ import { cn } from "@/lib/utils";
 import ModeToggle from "../tasks/components/ToggleDarkMode";
 import { Button } from "@/components/ui/button";
 import SignOut from "./SignOut";
+import { useUserStore } from "@/lib/store/user";
 
 export default function SideNav() {
   return <SideBar className=" hidden lg:block dark:bg-graident-dark flex-1" />;
 }
 
 export const SideBar = ({ className }: { className?: string }) => {
+  const userRole = useUserStore.getState().user?.user_metadata.role;
   return (
     <div className={className}>
       <div
@@ -24,7 +26,7 @@ export const SideBar = ({ className }: { className?: string }) => {
 
             <ModeToggle />
           </div>
-          <NavLinks />
+          <NavLinks userRole={userRole}/>
         </div>
         <div className="">
           <SignOut />
