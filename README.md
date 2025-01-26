@@ -84,10 +84,10 @@ The API endpoints are stored in the `index.ts` file within each `actions` folder
   - `GET createSupabaseAdmin()`: create an admin server client with auto refreshed tokens and persisting session.
 
 - **Database APIs**
-  - `GET supabase.from("table_name").select(data).eq("equality constraint"): Fetch data from the given table.
-  - `POST supabase.from("table_name").insert(data).eq("equality constraint"): Insert given data into the given table.
-  - `PUT supabase.from("table_name").update(data).eq("equality constraint"):  Update given data in the given table.
-  - `DELETE supabase.from("table_name").delete(data).eq("equality constraint"): Delete given data from the given table.
+  - `GET supabase.from("table_name").select(data).eq("equality constraint")`: Fetch data from the given table.
+  - `POST supabase.from("table_name").insert(data).eq("equality constraint")`: Insert given data into the given table.
+  - `PUT supabase.from("table_name").update(data).eq("equality constraint")`:  Update given data in the given table.
+  - `DELETE supabase.from("table_name").delete(data).eq("equality constraint")`: Delete given data from the given table.
 
 ## Technology Stack
 
