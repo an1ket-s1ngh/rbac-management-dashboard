@@ -62,7 +62,6 @@ export default function CreateTaskForm({ isAdmin, isManager, user_id, isEdit }: 
   }, []);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     if (!isEdit) {
       startTransition(async () => {
         const result = await createTask(data);

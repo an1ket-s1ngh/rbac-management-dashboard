@@ -1,8 +1,23 @@
 import { readUserSession } from '@/lib/actions';
 import React, { useState, useEffect } from 'react';
 import { readMemberNameByID } from '../tasks/actions';
+import { createSupabaseAdmin } from '@/lib/supabase';
+import { redirect } from 'next/navigation';
 
-export default function Dashboard() {
+export default async function Dashboard() {
+	const { data: userSession } = await readUserSession();
+	
+		if (userSession.session) {
+			const supabase= await createSupabaseAdmin();
+			const { data: userStatus } = await supabase
+				.from('permission')
+				.select('status')
+				.eq('member_id', userSession.session.user.id)
+				.single();
+	
+			if (userStatus?.status === "resigned") {
+				return redirect("/inactive");
+			}}
 
     return (
 		<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90%' }}>

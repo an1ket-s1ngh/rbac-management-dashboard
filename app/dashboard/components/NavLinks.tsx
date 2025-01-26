@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 
 export default function NavLinks({ userRole }: { userRole: string }) {
 	const pathname = usePathname();
-	console.log(pathname, userRole);
 	const links = [
 		{
 			href: "/dashboard/members",
