@@ -16,11 +16,11 @@ export default async function ListOfTask() {
   const isManager = user?.user_metadata.role === "manager";
 
   return (
-    <div className="dark:bg-inherit bg-white mx-2 rounded-sm">
+    <div className="dark:bg-inherit bg-white rounded-sm">
       {(tasks as ITask[])?.map(async (task, index) => {
         return (
           <div
-            className=" grid grid-cols-5  rounded-sm  p-3 align-middle font-normal "
+            className="mx-2 grid grid-cols-6  rounded-sm  p-3 align-middle font-normal "
             key={index}
           >
             <h1>{task.title}</h1>
@@ -41,10 +41,10 @@ export default async function ListOfTask() {
             <h1>{new Date(task.created_at).toDateString()}</h1>
 
             <h1>{(await readMemberNameByID(task.created_by))?.map(member => member.name).join(", ")}</h1>
-
+              
             <h1>{(await readMemberNameByID(task.assigned_to))?.map(member => member.name).join(", ")}</h1>
 
-            <div className="flex gap-2 items-center col-span-5 mt-2">
+            <div className="flex items-center gap-5 justify-stretch">
               {(isAdmin || isManager) && <DeleteTask task_id={task.id} />}
               <EditTask isManager={isManager} isAdmin={isAdmin} task={task}/>
             </div>
