@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 export default function NavLinks({ userRole }: { userRole: string }) {
 	const pathname = usePathname();
-
+	console.log(pathname, userRole);
 	const links = [
 		{
 			href: "/dashboard/members",
@@ -17,11 +17,12 @@ export default function NavLinks({ userRole }: { userRole: string }) {
 		// Conditionally include the Task link
 		...(userRole !== "new_user"
 			? [
-		{
-			href: "/dashboard/tasks",
-			text: "Tasks",
-			Icon: CrumpledPaperIcon,
-		},
+					{
+						href: "/dashboard/tasks",
+						text: "Tasks",
+						Icon: CrumpledPaperIcon,
+					},
+
 			]
 			: []),
 	];
