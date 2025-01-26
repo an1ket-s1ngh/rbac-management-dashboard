@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button'
+import { Sign } from 'crypto'
 import React from 'react'
+import SignOut from '../dashboard/components/SignOut'
 
 export default function page() {
   return (
@@ -10,7 +12,7 @@ export default function page() {
         </div>
 
         <div className='flex flex-col gap-5'>
-        <Button className=" h-full w-full flex items-center gap-2" variant="outline">Kindly Contact Your Admin</Button>
+        <SignOut />
         </div>
     </div>
     </div>
