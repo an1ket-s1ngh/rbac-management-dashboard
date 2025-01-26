@@ -10,3 +10,12 @@ export type IPermission = {
     email: string;
   };
 };
+
+export type ITask = {
+  id: string;
+  title: string;
+  completed: boolean;
+  created_at: string;
+  created_by: string;
+  assigned_to: string;
+};

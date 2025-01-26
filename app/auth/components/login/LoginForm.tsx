@@ -19,16 +19,16 @@ import { toast } from "@/components/ui/use-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { cn } from "@/lib/utils";
 import { useTransition } from "react";
-import { loginWithEmailAndPassword } from "../actions";
+import { loginWithEmailAndPassword } from "../../actions";
 import { AuthTokenResponse } from "@supabase/supabase-js";
-import CreateMember from "./CreateMember";
+import SignUp from "../signup/SignUp";
 
 const FormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, { message: "Password can not be empty" }),
 });
 
-export default function AuthForm() {
+export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -114,7 +114,7 @@ export default function AuthForm() {
           <FormDescription>
                   {"Not a member yet? Kindly Sign Up Below."}
           </FormDescription>
-          <CreateMember />
+          <SignUp />
         </form>
       </Form>
     </div>

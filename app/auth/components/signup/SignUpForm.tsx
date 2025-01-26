@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createMember } from "../actions";
+import { createMember } from "../../actions";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { cn } from "@/lib/utils";
 import { useTransition } from "react";
@@ -45,7 +45,7 @@ const FormSchema = z
     path: ["confirm"],
   });
 
-export default function MemberForm() {
+export default function SignUpForm() {
   const [isPending, startTransition] = useTransition();
   const roles = ["admin", "new_user", "manager", "verified_user"];
   const status = ["active", "resigned"];
