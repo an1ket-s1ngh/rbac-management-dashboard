@@ -17,17 +17,9 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { updateTaskById } from "../../actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useTransition } from "react";
-import { ITask } from "@/lib/types";
 
 const FormSchema = z.object({
   title: z.string().min(6, {

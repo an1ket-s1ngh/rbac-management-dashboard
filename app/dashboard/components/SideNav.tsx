@@ -3,7 +3,6 @@ import NavLinks from "./NavLinks";
 
 import { cn } from "@/lib/utils";
 import ModeToggle from "../tasks/components/ToggleDarkMode";
-import { Button } from "@/components/ui/button";
 import SignOut from "./SignOut";
 import { useUserStore } from "@/lib/store/user";
 

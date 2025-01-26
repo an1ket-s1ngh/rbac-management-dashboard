@@ -1,7 +1,5 @@
 "use server";
 
-import { readUserSession } from "@/lib/actions";
-import { useUserStore } from "@/lib/store/user";
 import { createSupabaseAdmin, createSupabaseServerClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

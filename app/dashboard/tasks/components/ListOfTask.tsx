@@ -1,12 +1,9 @@
 import React from "react";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
 import EditTask from "./edit/EditTask";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { readMemberNameByID, readTasks } from "../actions";
 import { useUserStore } from "@/lib/store/user";
-import { IPermission, ITask } from "@/lib/types";
+import { ITask } from "@/lib/types";
 import DeleteTask from "./DeleteTask";
 
 export default async function ListOfTask() {

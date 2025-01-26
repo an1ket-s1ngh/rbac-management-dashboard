@@ -27,7 +27,6 @@ import {
 import { createTask, readMemberNameID } from "../../actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEffect, useState, useTransition } from "react";
-import { ITask } from "@/lib/types";
 
 const FormSchema = z.object({
   title: z.string().min(6, {

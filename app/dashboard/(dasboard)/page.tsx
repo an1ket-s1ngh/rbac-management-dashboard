@@ -1,6 +1,5 @@
 import { readUserSession } from '@/lib/actions';
-import React, { useState, useEffect } from 'react';
-import { readMemberNameByID } from '../tasks/actions';
+import React from 'react';
 import { createSupabaseAdmin } from '@/lib/supabase';
 import { redirect } from 'next/navigation';
 
