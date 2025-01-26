@@ -9,7 +9,7 @@ export default async function page() {
 	const { data: userSession } = await readUserSession();
 
 	if (userSession.session) {
-		return redirect("/auth");
+		return redirect("/dashboard");
 	}
 	return (
 		<div className="flex items-center justify-center h-screen">
