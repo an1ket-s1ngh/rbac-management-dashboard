@@ -4,13 +4,13 @@ This project is a Role-Based Access Control (RBAC) Dashboard built with Next.js,
 
 ## Technology Stack
 
-- **Next.js**: A React framework for server-side rendering and static site generation.
-- **React**: A JavaScript library for building user interfaces.
-- **Supabase**: An open-source Firebase alternative for authentication and database management.
-- **Tailwind CSS**: A utility-first CSS framework for styling.
-- **Zustand**: A small, fast, and scalable state-management solution.
-- **Zod**: A TypeScript-first schema declaration and validation library.
-- **Radix UI**: A set of accessible and unstyled UI components.
+- **Next.js**: A React framework for server-side rendering and static site generation. It is used to create the main structure of the application, handle routing, and server-side rendering.
+- **React**: A JavaScript library for building user interfaces. It is used to create reusable UI components.
+- **Supabase**: An open-source Firebase alternative for authentication and database management. It is used for user authentication, role management, and storing application data.
+- **Tailwind CSS**: A utility-first CSS framework for styling. It is used to style the application components.
+- **Zustand**: A small, fast, and scalable state-management solution. It is used to manage the global state of the application.
+- **Zod**: A TypeScript-first schema declaration and validation library. It is used to validate data structures.
+- **Radix UI**: A set of accessible and unstyled UI components. It is used to build accessible and customizable UI components.
 
 ## Setup Instructions
 
@@ -26,7 +26,7 @@ This project is a Role-Based Access Control (RBAC) Dashboard built with Next.js,
     ```
 
 3. **Set up environment variables**:
-    Create a [.env.local](http://_vscodecontentref_/0) file in the root directory and add the following environment variables:
+    Create a `.env.local` file in the root directory and add the following environment variables:
     ```env
     NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
     NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
@@ -48,182 +48,92 @@ This project is a Role-Based Access Control (RBAC) Dashboard built with Next.js,
     npm start
     ```
 
-## Project Structure
+## API Details
 
-- **app/**: Contains the main application pages and components.
-  - **auth/**: Authentication-related pages and components.
-  - **dashboard/**: Dashboard-related pages and components.
-  - **(home)**: Home page.
-- **components/**: Reusable UI components.
-- **lib/**: Library files for actions, store, and utilities.
-- **public/**: Public assets.
-- **styles/**: Global styles.
-- **middleware.ts**: Middleware for handling authentication.
-- **next.config.js**: Next.js configuration file.
-- **tailwind.config.js**: Tailwind CSS configuration file.
-- **tsconfig.json**: TypeScript configuration file.
+The application uses Supabase for backend services. Here are some key API endpoints:
 
-## API Documentation
+- **Authentication**:
+  - `POST /auth/signup`: Sign up a new user.
+  - `POST /auth/login`: Log in an existing user.
+  - `POST /auth/logout`: Log out the current user.
 
-### Authentication
+- **Roles and Permissions**:
+  - `GET /roles`: Get a list of all roles.
+  - `POST /roles`: Create a new role.
+  - `PUT /roles/:id`: Update an existing role.
+  - `DELETE /roles/:id`: Delete a role.
 
-- **Login with Email and Password**
-  - **Endpoint**: `POST /api/auth/login`
-  - **Description**: Logs in a user with email and password.
-  - **Request Body**:
-    ```json
-    {
-      "email": "user@example.com",
-      "password": "password"
-    }
-    ```
-  - **Response**:
-    ```json
-    {
-      "data": { ... },
-      "error": null
-    }
-    ```
+- **Tasks**:
+  - `GET /tasks`: Get a list of all tasks.
+  - `POST /tasks`: Create a new task.
+  - `PUT /tasks/:id`: Update an existing task.
+  - `DELETE /tasks/:id`: Delete a task.
 
-- **Logout**
-  - **Endpoint**: `POST /api/auth/logout`
-  - **Description**: Logs out the current user.
-  - **Response**:
-    ```json
-    {
-      "data": null,
-      "error": null
-    }
-    ```
+## Routing Details
 
-### Members
+The application uses Next.js routing. Here are some key routes:
 
-- **Create Member**
-  - **Endpoint**: `POST /api/members`
-  - **Description**: Creates a new member.
-  - **Request Body**:
-    ```json
-    {
-      "name": "John Doe",
-      "role": "new_user",
-      "status": "active",
-      "email": "john@example.com",
-      "password": "password",
-      "confirm": "password"
-    }
-    ```
-  - **Response**:
-    ```json
-    {
-      "data": { ... },
-      "error": null
-    }
-    ```
+- `/`: Home page.
+- `/auth`: Auhtentication page.
+- `/dashboard`: Dashboard page (requires authentication).
+- `/roles`: Roles management page (requires admin role).
+- `/tasks`: Tasks management page (requires appropriate permissions).
 
-- **Read Members**
-  - **Endpoint**: `GET /api/members`
-  - **Description**: Retrieves a list of members.
-  - **Response**:
-    ```json
-    {
-      "data": [ ... ],
-      "error": null
-    }
-    ```
+## Role Management
 
-- **Update Member**
-  - **Endpoint**: `PUT /api/members/:id`
-  - **Description**: Updates a member's information.
-  - **Request Body**:
-    ```json
-    {
-      "name": "John Doe",
-      "role": "admin",
-      "status": "active",
-      "email": "john@example.com",
-      "password": "newpassword",
-      "confirm": "newpassword"
-    }
-    ```
-  - **Response**:
-    ```json
-    {
-      "data": { ... },
-      "error": null
-    }
-    ```
+### Client-Side
 
-- **Delete Member**
-  - **Endpoint**: `DELETE /api/members/:id`
-  - **Description**: Deletes a member.
-  - **Response**:
-    ```json
-    {
-      "data": null,
-      "error": null
-    }
-    ```
+On the client side, role management is handled using Zustand for state management. The user's role and permissions are stored in the global state and are used to conditionally render components and restrict access to certain routes.
 
-### Tasks
+Example:
+```tsx
+// filepath: /src/store/useUserStore.ts
+import create from 'zustand';
 
-- **Create Task**
-  - **Endpoint**: `POST /api/tasks`
-  - **Description**: Creates a new task.
-  - **Request Body**:
-    ```json
-    {
-      "title": "New Task",
-      "completed": false
-    }
-    ```
-  - **Response**:
-    ```json
-    {
-      "data": { ... },
-      "error": null
-    }
-    ```
+interface UserState {
+  role: string;
+  permissions: string[];
+  setRole: (role: string) => void;
+  setPermissions: (permissions: string[]) => void;
+}
 
-- **Read Tasks**
-  - **Endpoint**: `GET /api/tasks`
-  - **Description**: Retrieves a list of tasks.
-  - **Response**:
-    ```json
-    {
-      "data": [ ... ],
-      "error": null
-    }
-    ```
+export const useUserStore = create<UserState>((set) => ({
+  role: '',
+  permissions: [],
+  setRole: (role) => set({ role }),
+  setPermissions: (permissions) => set({ permissions }),
+}));
+```
 
-- **Update Task**
-  - **Endpoint**: `PUT /api/tasks/:id`
-  - **Description**: Updates a task's information.
-  - **Request Body**:
-    ```json
-    {
-      "title": "Updated Task",
-      "completed": true
-    }
-    ```
-  - **Response**:
-    ```json
-    {
-      "data": { ... },
-      "error": null
-    }
-    ```
+### Server-Side
 
-- **Delete Task**
-  - **Endpoint**: `DELETE /api/tasks/:id`
-  - **Description**: Deletes a task.
-  - **Response**:
-    ```json
-    {
-      "data": null,
-      "error": null
-    }
-    ```
+On the server side, Supabase is used to manage roles and permissions. Each user is assigned a role, and each role has a set of permissions. The server checks the user's role and permissions before allowing access to certain API endpoints.
 
-## License
+Example:
+```js
+// filepath: /src/pages/api/roles.ts
+import { NextApiRequest, NextApiResponse } from 'next';
+import { supabase } from '../../utils/supabaseClient';
 
-This project is licensed under the MIT License.
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { method } = req;
+
+  switch (method) {
+    case 'GET':
+      const { data: roles, error } = await supabase.from('roles').select('*');
+      if (error) return res.status(500).json({ error: error.message });
+      return res.status(200).json(roles);
+    case 'POST':
+      const { name, permissions } = req.body;
+      const { data, error: insertError } = await supabase.from('roles').insert([{ name, permissions }]);
+      if (insertError) return res.status(500).json({ error: insertError.message });
+      return res.status(201).json(data);
+    // Handle other methods (PUT, DELETE) similarly
+    default:
+      res.setHeader('Allow', ['GET', 'POST']);
+      res.status(405).end(`Method ${method} Not Allowed`);
+  }
+}
+```
+
+This setup ensures that role management is handled both on the client and server sides, providing a secure and efficient way to manage user roles and permissions.

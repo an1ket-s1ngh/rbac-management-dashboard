@@ -1,6 +1,7 @@
 "use server";
 
 import { readUserSession } from "@/lib/actions";
+import { useUserStore } from "@/lib/store/user";
 import { createSupabaseAdmin, createSupabaseServerClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -12,6 +13,7 @@ export async function loginWithEmailAndPassword(data: {
   const supabase = await createSupabaseServerClient();
 
   const result = await supabase.auth.signInWithPassword(data);
+  
   return JSON.stringify(result);
 }
 
