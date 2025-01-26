@@ -21,7 +21,7 @@ export async function logout() {
   redirect("/auth");
 }
 
-export async function createMember(data: {
+export async function signUp(data: {
   name: string;
   role: "admin" | "manager" | "verified_user" | "new_user";
   status: "active" | "resigned";

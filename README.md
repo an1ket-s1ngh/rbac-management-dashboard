@@ -1,139 +1,106 @@
 # RBAC Dashboard
 
-This project is a Role-Based Access Control (RBAC) Dashboard built with Next.js, React, and Supabase. It provides a user interface for managing user roles and permissions, as well as tasks within an organization.
+## Concept
 
-## Technology Stack
+Role-Based Access Control (RBAC) is a method of regulating access to a system or network based on the roles of individual users within an organization. In this project, we implement RBAC to manage permissions and access levels for different users.
 
-- **Next.js**: A React framework for server-side rendering and static site generation. It is used to create the main structure of the application, handle routing, and server-side rendering.
-- **React**: A JavaScript library for building user interfaces. It is used to create reusable UI components.
-- **Supabase**: An open-source Firebase alternative for authentication and database management. It is used for user authentication, role management, and storing application data.
-- **Tailwind CSS**: A utility-first CSS framework for styling. It is used to style the application components.
-- **Zustand**: A small, fast, and scalable state-management solution. It is used to manage the global state of the application.
-- **Zod**: A TypeScript-first schema declaration and validation library. It is used to validate data structures.
-- **Radix UI**: A set of accessible and unstyled UI components. It is used to build accessible and customizable UI components.
+## Project Structure
 
-## Setup Instructions
+The project is structured as follows:
+- `components/`: Contains the React components used in the frontend.
+- `actions/`: Contains the API endpoints for each component, stored in `index.ts` files.
+- `pages/`: Contains the Next.js pages.
+- `styles/`: Contains the styling files.
+- `utils/`: Contains utility functions and helpers.
 
-1. **Clone the repository**:
-    ```sh
-    git clone https://github.com/your-username/rbac-dashboard.git
+## Setup Details
+
+To set up the project, follow these steps:
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/an1ket-s1ngh/rbac-management-dashboard.git
+    ```
+
+2. Navigate to the project directory:
+    ```bash
     cd rbac-dashboard
     ```
 
-2. **Install dependencies**:
-    ```sh
+3. Install the dependencies:
+    ```bash
     npm install
     ```
 
-3. **Set up environment variables**:
-    Create a `.env.local` file in the root directory and add the following environment variables:
-    ```env
+4. Set up the environment variables for Supabase in the `.env.local` file:
+    ```bash
     NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
     NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-    SERVICE_ROLE=your-supabase-service-role-key
+    SERVICE_ROLE=your-service-role-key-for-admin-access-to-database
+    SUPABASE_DB_PASSWORD=your-password-for-the-database
     ```
 
-4. **Run the development server**:
-    ```sh
+5. Run the development server:
+    ```bash
     npm run dev
-    ```
-
-5. **Build for production**:
-    ```sh
-    npm run build
-    ```
-
-6. **Start the production server**:
-    ```sh
-    npm start
     ```
 
 ## API Details
 
-The application uses Supabase for backend services. Here are some key API endpoints:
+The API endpoints are stored in the `index.ts` file within each `actions` folder for every component of the project. These endpoints handle various operations such as fetching data, updating records, and managing user roles and permissions.
 
-- **Authentication**:
-  - `POST /auth/signup`: Sign up a new user.
-  - `POST /auth/login`: Log in an existing user.
-  - `POST /auth/logout`: Log out the current user.
+### List of APIs
 
-- **Roles and Permissions**:
-  - `GET /roles`: Get a list of all roles.
-  - `POST /roles`: Create a new role.
-  - `PUT /roles/:id`: Update an existing role.
-  - `DELETE /roles/:id`: Delete a role.
+- **Auth APIs**
+  - `POST loginWithEmailAndPassword(data)`: log in as a user.
+  - `POST signUp(data)`: sign up as a new_user.
+  - `POST logout()`: Log out a user.
 
-- **Tasks**:
-  - `GET /tasks`: Get a list of all tasks.
-  - `POST /tasks`: Create a new task.
-  - `PUT /tasks/:id`: Update an existing task.
-  - `DELETE /tasks/:id`: Delete a task.
+- **Member APIs**
+  - `GET readMembers()`: Fetch all members.
+  - `GET readMemberNameID()`: Fetch user_id and name of each member
+  - `GET readMemberNameByID(member_id)`: Fetch member name using member_id
+  - `POST createMember(data)`: Add a new member with data fields passed.
+  - `PUT updateMemberBasicById(id, data)`: Update advanced member details using user_id
+  - `PUT updateMemberAdvanceById(permission_id, user_id, data)`: Update advanced member details using user_id and permission_id.
+  - `PUT updateMemberAccountById(user_id, data)`: Update member account details using user_id.
+  - `DELETE deleteMemberById(user_id)`: Delete a member using user_id.
 
-## Routing Details
+- **Task APIs**
+  - `GET readTasks()`: Fetch all tasks.
+  - `POST createTask(data)`: Add a new task with the data fields passed.
+  - `PUT updateTaskById(data)`: Update task details with the data fields passed, for non manager and non admin roles.
+  - `PUT updateTaskByIdElevated(data)`: Update task details with the data fields passed, for manager and admin roles (allows changing the assignee of the task)
+  - `DELETE deleteTaskById(task_id)`: Delete a task by using task_id.
 
-The application uses Next.js routing. Here are some key routes:
+### Supabase APIs
 
-- `/`: Home page.
-- `/auth`: Auhtentication page.
-- `/dashboard`: Dashboard page (requires authentication).
-- `/roles`: Roles management page (requires admin role).
-- `/tasks`: Tasks management page (requires appropriate permissions).
+- **Auth APIs**
+  - `POST supabase.auth.signInWithPassword(data)`: authenticate and log in as a user.
+  - `POST supabase.auth.admin.createUser(data)`: create a user in the database.
+  - `POST supabase.auth.signOut()`: Log out a user.
+  - `GET createSupbaseServerClientReadOnly()`: create a read only server client by fetching cookies.
+  - `GET createSupabaseServerClient()`: create a server client by fetching, setting and deleting cookies.
+  - `GET createSupabaseAdmin()`: create an admin server client with auto refreshed tokens and persisting session.
 
-## Role Management
+- **Database APIs**
+  - `GET supabase.from("table_name").select(data).eq("equality constraint"): Fetch data from the given table.
+  - `POST supabase.from("table_name").insert(data).eq("equality constraint"): Insert given data into the given table.
+  - `PUT supabase.from("table_name").update(data).eq("equality constraint"):  Update given data in the given table.
+  - `DELETE supabase.from("table_name").delete(data).eq("equality constraint"): Delete given data from the given table.
 
-### Client-Side
+## Technology Stack
 
-On the client side, role management is handled using Zustand for state management. The user's role and permissions are stored in the global state and are used to conditionally render components and restrict access to certain routes.
+- **Next.js**: Used for the frontend development.
+- **Supabase**: Serves as the backend database, handles authentication, and allows managing roles by providing api's for fetching details from the database.
+- **ShadcnUI**: Provides UI components and basic design elements.
+- **Zustand**: Used for state management.
+- **ZodResolver**: Used for form validations.
 
-Example:
-```tsx
-// filepath: /src/store/useUserStore.ts
-import create from 'zustand';
+## Database Schema
 
-interface UserState {
-  role: string;
-  permissions: string[];
-  setRole: (role: string) => void;
-  setPermissions: (permissions: string[]) => void;
-}
+Stores each member's information in the `member` table and their assigned roles and status in the `permission` table. The `task` table stores each task along with details such as who created it, when it was created, and its completion status.
 
-export const useUserStore = create<UserState>((set) => ({
-  role: '',
-  permissions: [],
-  setRole: (role) => set({ role }),
-  setPermissions: (permissions) => set({ permissions }),
-}));
-```
+## Conclusion
 
-### Server-Side
-
-On the server side, Supabase is used to manage roles and permissions. Each user is assigned a role, and each role has a set of permissions. The server checks the user's role and permissions before allowing access to certain API endpoints.
-
-Example:
-```js
-// filepath: /src/pages/api/roles.ts
-import { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '../../utils/supabaseClient';
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method } = req;
-
-  switch (method) {
-    case 'GET':
-      const { data: roles, error } = await supabase.from('roles').select('*');
-      if (error) return res.status(500).json({ error: error.message });
-      return res.status(200).json(roles);
-    case 'POST':
-      const { name, permissions } = req.body;
-      const { data, error: insertError } = await supabase.from('roles').insert([{ name, permissions }]);
-      if (insertError) return res.status(500).json({ error: insertError.message });
-      return res.status(201).json(data);
-    // Handle other methods (PUT, DELETE) similarly
-    default:
-      res.setHeader('Allow', ['GET', 'POST']);
-      res.status(405).end(`Method ${method} Not Allowed`);
-  }
-}
-```
-
-This setup ensures that role management is handled both on the client and server sides, providing a secure and efficient way to manage user roles and permissions.
+This RBAC Dashboard project leverages modern technologies to provide a robust and scalable solution for managing user roles and permissions. By following the setup instructions, you can quickly get the project up and running and start customizing it to fit your needs.

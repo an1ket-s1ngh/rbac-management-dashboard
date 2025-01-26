@@ -17,10 +17,11 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 
-import { createMember } from "../../actions";
+import { signUp } from "../../actions";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { cn } from "@/lib/utils";
 import { useTransition } from "react";
+import { redirect } from "next/navigation";
 
 const FormSchema = z
   .object({
@@ -55,7 +56,7 @@ export default function SignUpForm() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const result = await createMember(data);
+      const result = await signUp(data);
       const { error } = JSON.parse(result);
       if (error?.message) {
         toast({
@@ -72,6 +73,7 @@ export default function SignUpForm() {
           title: "Successfully Created Member",
         });
       }
+      redirect("/auth");
     });
   }
 

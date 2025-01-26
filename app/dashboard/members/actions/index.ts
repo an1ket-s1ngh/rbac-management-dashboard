@@ -7,6 +7,12 @@ import {
 } from "@/lib/supabase";
 import { revalidatePath, unstable_noStore } from "next/cache";
 
+export async function readMembers() {
+  unstable_noStore(); //Preventing caching since we are reading authenticated data
+  const supabase = await createSupabaseServerClient();
+  return await supabase.from("permission").select("*,member(*)");
+}
+
 export async function createMember(data: {
   name: string;
   role: "admin" | "manager" | "verified_user" | "new_user";
@@ -154,10 +160,4 @@ export async function deleteMemberById(user_id: string) {
     revalidatePath("/dashboard/member");
     return JSON.stringify(result);
   }
-}
-
-export async function readMembers() {
-  unstable_noStore(); //Preventing caching since we are reading authenticated data
-  const supabase = await createSupabaseServerClient();
-  return await supabase.from("permission").select("*,member(*)");
 }
