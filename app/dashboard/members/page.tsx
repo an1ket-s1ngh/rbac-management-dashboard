@@ -23,7 +23,7 @@ export default async function Members() {
   const isAdmin = user?.user_metadata.role === "admin";
   const isManager = user?.user_metadata.role === "manager";
   return (
-    <div className="space-y-5 w-full overflow-y-auto px-3">
+    <div className="space-y-5 w-full overflow-y-auto px-3" suppressHydrationWarning>
       <h1 className="text-3xl font-bold">Members</h1>
       { (isAdmin || isManager) && (
         <div className="flex gap-2">
