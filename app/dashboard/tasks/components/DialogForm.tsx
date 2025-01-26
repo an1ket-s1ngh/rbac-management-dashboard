@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 
 import React, { ReactNode } from "react";
-import { create } from 'zustand';
 
 export default function DailogForm({
   Trigger,
@@ -30,7 +29,7 @@ export default function DailogForm({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
-            Edit the tasks and click Update to save your changes.
+            Fill in the task details and click Submit to save your changes.
           </DialogDescription>
         </DialogHeader>
         {form}
